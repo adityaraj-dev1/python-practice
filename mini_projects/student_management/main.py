@@ -4,7 +4,9 @@ while True:
     print("\n--- Student Management System ---")
     print("1. Add Student")
     print("2. View Students")
-    print("3. Exit")
+    print("3. Delete Student")
+    print("4. Find Highest Marks")
+    print("5. Exit")
 
     choice = input("Enter choice: ")
 
@@ -18,10 +20,37 @@ while True:
         if len(students) == 0:
             print("No students found.")
         else:
-            for s in students:
-                print("Name:", s["name"], "| Marks:", s["marks"])
+            for i, s in enumerate(students, start=1):
+                print(i, "Name:", s["name"], "| Marks:", s["marks"])
 
     elif choice == "3":
+        name = input("Enter name to delete: ")
+        found = False
+
+        for s in students:
+            if s["name"].lower() == name.lower():
+                students.remove(s)
+                found = True
+                print("Student deleted.")
+                break
+
+        if not found:
+            print("Student not found.")
+
+    elif choice == "4":
+        if len(students) == 0:
+            print("No students available.")
+        else:
+            highest = students[0]
+            for s in students:
+                if s["marks"] > highest["marks"]:
+                    highest = s
+
+            print("Top Student:")
+            print("Name:", highest["name"])
+            print("Marks:", highest["marks"])
+
+    elif choice == "5":
         print("Goodbye!")
         break
 
