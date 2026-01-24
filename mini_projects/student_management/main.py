@@ -1,6 +1,6 @@
 students = []
 
-while True:
+def show_menu():
     print("\n--- Student Management System ---")
     print("1. Add Student")
     print("2. View Students")
@@ -10,8 +10,10 @@ while True:
     print("6. Calculate Average Marks")
     print("7. Exit")
 
+while True:
+    show_menu()
     choice = input("Enter choice: ")
-    
+
     if choice == "1":
         name = input("Enter student name: ")
         marks = int(input("Enter marks: "))
@@ -19,19 +21,19 @@ while True:
         print("Student added successfully.")
 
     elif choice == "2":
-        if len(students) == 0:
+        if not students:
             print("No students found.")
         else:
-            for i, s in enumerate(students, start=1):
-                print(i, "Name:", s["name"], "| Marks:", s["marks"])
+            for i, student in enumerate(students, start=1):
+                print(i, "Name:", student["name"], "| Marks:", student["marks"])
 
     elif choice == "3":
         name = input("Enter name to delete: ")
         found = False
 
-        for s in students:
-            if s["name"].lower() == name.lower():
-                students.remove(s)
+        for student in students:
+            if student["name"].lower() == name.lower():
+                students.remove(student)
                 found = True
                 print("Student deleted.")
                 break
@@ -40,13 +42,13 @@ while True:
             print("Student not found.")
 
     elif choice == "4":
-        if len(students) == 0:
+        if not students:
             print("No students available.")
         else:
             highest = students[0]
-            for s in students:
-                if s["marks"] > highest["marks"]:
-                    highest = s
+            for student in students:
+                if student["marks"] > highest["marks"]:
+                    highest = student
 
             print("Top Student:")
             print("Name:", highest["name"])
@@ -56,10 +58,10 @@ while True:
         name = input("Enter name to search: ")
         found = False
 
-        for s in students:
-            if s["name"].lower() == name.lower():
+        for student in students:
+            if student["name"].lower() == name.lower():
                 print("Student Found:")
-                print("Name:", s["name"], "| Marks:", s["marks"])
+                print("Name:", student["name"], "| Marks:", student["marks"])
                 found = True
                 break
 
@@ -67,12 +69,12 @@ while True:
             print("Student not found.")
 
     elif choice == "6":
-        if len(students) == 0:
+        if not students:
             print("No students available.")
         else:
             total = 0
-            for s in students:
-                total += s["marks"]
+            for student in students:
+                total += student["marks"]
 
             average = total / len(students)
             print("Average Marks:", average)
