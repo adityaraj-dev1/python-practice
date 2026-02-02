@@ -1,5 +1,3 @@
-students = []
-
 def show_menu():
     print("\n--- Student Management System ---")
     print("1. Add Student")
@@ -10,78 +8,85 @@ def show_menu():
     print("6. Calculate Average Marks")
     print("7. Exit")
 
-while True:
-    show_menu()
-    choice = input("Enter choice: ")
 
-    if choice == "1":
-        name = input("Enter student name: ")
-        marks = int(input("Enter marks: "))
-        students.append({"name": name, "marks": marks})
-        print("Student added successfully.")
+def add_student(students):
+    name = input("Enter student name: ")
+    marks = int(input("Enter marks: "))
+    students.append({"name": name, "marks": marks})
+    print("Student added successfully.")
 
-    elif choice == "2":
-        if not students:
-            print("No students found.")
-        else:
-            for i, student in enumerate(students, start=1):
-                print(i, "Name:", student["name"], "| Marks:", student["marks"])
 
-    elif choice == "3":
-        name = input("Enter name to delete: ")
-        found = False
-
-        for student in students:
-            if student["name"].lower() == name.lower():
-                students.remove(student)
-                found = True
-                print("Student deleted.")
-                break
-
-        if not found:
-            print("Student not found.")
-
-    elif choice == "4":
-        if not students:
-            print("No students available.")
-        else:
-            highest = students[0]
-            for student in students:
-                if student["marks"] > highest["marks"]:
-                    highest = student
-
-            print("Top Student:")
-            print("Name:", highest["name"])
-            print("Marks:", highest["marks"])
-
-    elif choice == "5":
-        name = input("Enter name to search: ")
-        found = False
-
-        for student in students:
-            if student["name"].lower() == name.lower():
-                print("Student Found:")
-                print("Name:", student["name"], "| Marks:", student["marks"])
-                found = True
-                break
-
-        if not found:
-            print("Student not found.")
-
-    elif choice == "6":
-        if not students:
-            print("No students available.")
-        else:
-            total = 0
-            for student in students:
-                total += student["marks"]
-
-            average = total / len(students)
-            print("Average Marks:", average)
-
-    elif choice == "7":
-        print("Goodbye!")
-        break
-
+def view_students(students):
+    if not students:
+        print("No students found.")
     else:
-        print("Invalid choice. Try again.")
+        for i, student in enumerate(students, start=1):
+            print(f"{i}. Name: {student['name']} | Marks: {student['marks']}")
+
+
+def delete_student(students):
+    name = input("Enter name to delete: ")
+    for student in students:
+        if student["name"].lower() == name.lower():
+            students.remove(student)
+            print("Student deleted.")
+            return
+    print("Student not found.")
+
+
+def highest_marks(students):
+    if not students:
+        print("No students available.")
+        return
+
+    highest = max(students, key=lambda x: x["marks"])
+    print("Top Student:")
+    print(f"Name: {highest['name']} | Marks: {highest['marks']}")
+
+
+def search_student(students):
+    name = input("Enter name to search: ")
+    for student in students:
+        if student["name"].lower() == name.lower():
+            print(f"Student Found: Name: {student['name']} | Marks: {student['marks']}")
+            return
+    print("Student not found.")
+
+
+def find_average(students):
+    if not students:
+        print("No students available.")
+        return
+
+    average = sum(s["marks"] for s in students) / len(students)
+    print(f"Average Marks: {average}")
+
+
+def main():
+    students = []
+
+    while True:
+        show_menu()
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            add_student(students)
+        elif choice == "2":
+            view_students(students)
+        elif choice == "3":
+            delete_student(students)
+        elif choice == "4":
+            highest_marks(students)
+        elif choice == "5":
+            search_student(students)
+        elif choice == "6":
+            find_average(students)
+        elif choice == "7":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+if __name__ == "__main__":
+    main()
